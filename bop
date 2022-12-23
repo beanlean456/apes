@@ -1,0 +1,13 @@
+local player = game.Players.LocalPlayer
+local screenGui = Instance.new("ScreenGui")
+local textLabel = Instance.new("TextLabel")
+
+screenGui.Parent = player.PlayerGui
+textLabel.Parent = screenGui
+textLabel.Text = "Hello, World!"
+textLabel.Position = UDim2.new(0.5, -100, 0.5, -50)
+textLabel.Size = UDim2.new(0, 200, 0, 100)
+textLabel.TextScaled = true
+textLabel.TextWrapped = true
+textLabel.TextXAlignment = Enum.TextXAlignment.Center
+textLabel.TextYAlignment = Enum.TextYAlignment.Center
