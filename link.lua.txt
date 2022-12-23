@@ -1,0 +1,39 @@
+local player = game.Players.LocalPlayer
+local character = player.Character
+local humanoid = character:WaitForChild("Humanoid")
+local swimming = false
+
+function onKeyPress(inputObject, gameProcessedEvent)
+    if inputObject.KeyCode == Enum.KeyCode.Q then
+        swimming = not swimming
+        if swimming then
+            humanoid.WalkSpeed = 0
+            character.HumanoidRootPart.Velocity = Vector3.new(0, 0, 0)
+        else
+            humanoid.WalkSpeed = 16
+        end
+    end
+end
+
+function onSwimming(part)
+    if swimming then
+        local swimVelocity = Vector3.new(0, 0, 0)
+        if game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.W) then
+            swimVelocity = swimVelocity + Vector3.new(0, 1, 0)
+        end
+        if game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.S) then
+            swimVelocity = swimVelocity + Vector3.new(0, -1, 0)
+        end
+        if game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.A) then
+            swimVelocity = swimVelocity + Vector3.new(-1, 0, 0)
+        end
+        if game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.D) then
+            swimVelocity = swimVelocity + Vector3.new(1, 0, 0)
+        end
+        swimVelocity = swimVelocity * 5
+        character.HumanoidRootPart.Velocity = swimVelocity
+    end
+end
+
+game:GetService("UserInputService").InputBegan:Connect(onKeyPress)
+character.HumanoidRootPart.Touched:Connect(onSwimming)
