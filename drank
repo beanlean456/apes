@@ -1,0 +1,30 @@
+local player = game.Players.LocalPlayer
+local screenGui = Instance.new("ScreenGui")
+local textLabel = Instance.new("TextLabel")
+local closeButton = Instance.new("TextButton")
+
+screenGui.Parent = player.PlayerGui
+textLabel.Parent = screenGui
+closeButton.Parent = screenGui
+
+textLabel.Text = "Hello, World!"
+textLabel.Position = UDim2.new(0.5, -100, 0.5, -50)
+textLabel.Size = UDim2.new(0, 200, 0, 100)
+textLabel.TextScaled = true
+textLabel.TextWrapped = true
+textLabel.TextXAlignment = Enum.TextXAlignment.Center
+textLabel.TextYAlignment = Enum.TextYAlignment.Center
+
+closeButton.Text = "Close"
+closeButton.Position = UDim2.new(0.5, -50, 0.5, 50)
+closeButton.Size = UDim2.new(0, 100, 0, 50)
+closeButton.TextScaled = true
+closeButton.TextXAlignment = Enum.TextXAlignment.Center
+
+function onCloseButtonClicked()
+    screenGui:Destroy()
+end
+
+closeButton.MouseButton1Click:Connect(onCloseButtonClicked)
+
+screenGui.Draggable = true
