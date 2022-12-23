@@ -1,0 +1,70 @@
+-- Create the GUI
+local playerList = game.Players:GetPlayers()
+local gui = Instance.new("ScreenGui")
+gui.Name = "PlayerPunchGUI"
+local main = Instance.new("Frame")
+main.Name = "Main"
+main.Position = UDim2.new(0.5, -150, 0.5, -100)
+main.Size = UDim2.new(0, 300, 0, 200)
+main.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
+main.BorderSizePixel = 0
+main.Draggable = true
+main.Parent = gui
+local closeButton = Instance.new("TextButton")
+closeButton.Name = "CloseButton"
+closeButton.Position = UDim2.new(1, -25, 0, 5)
+closeButton.Size = UDim2.new(0, 20, 0, 20)
+closeButton.BackgroundColor3 = Color3.new(0.5, 0.5, 0.5)
+closeButton.Text = "X"
+closeButton.Parent = main
+
+-- Create a button for each player
+for _, player in pairs(playerList) do
+    local playerButton = Instance.new("TextButton")
+    playerButton.Name = player.Name .. "Button"
+    playerButton.Position = UDim2.new(0, 5, 0, 30 + (_ * 25))
+    playerButton.Size = UDim2.new(1, -10, 0, 20)
+    playerButton.BackgroundColor3 = Color3.new(0.5, 0.5, 0.5)
+    playerButton.Text = player.Name
+    playerButton.Parent = main
+end
+
+-- Show the GUI
+gui.Parent = game.CoreGui
+
+-- Punch the selected player when their button is clicked
+function onButtonClicked(button)
+    local player = game.Players:FindFirstChild(button.Text)
+    if player then
+        -- Equip the Fist tool
+        local tool = Instance.new("Tool")
+        tool.Name = "Fist"
+        tool.Parent = player.Backpack
+
+        -- Punch the player repeatedly
+        while true do
+            wait(0.1)
+            tool:Activate()
+        end
+    end
+end
+
+-- Close the GUI when the close button is clicked
+function onCloseClicked()
+    gui:Destroy()
+end
+
+-- Connect the button events
+for _, button in pairs(main:GetChildren()) do
+    if button:IsA("TextButton") and button.Name ~= "CloseButton" then
+        button.MouseButton1Click:Connect(function() onButtonClicked(button) end)
+    elseif button.Name == "CloseButton" then
+        button.MouseButton1Click:Connect(onCloseClicked)
+    end
+end
+
+-- Re-open the GUI when the "P" key is pressed
+game.InputService.InputBegan:Connect(function(input, gameProcessed)
+    if input.KeyCode == Enum.KeyCode.P then
+        if not gui:IsDescendantOf(game.CoreGui) then
+            gui.Parent = game.CoreGui
